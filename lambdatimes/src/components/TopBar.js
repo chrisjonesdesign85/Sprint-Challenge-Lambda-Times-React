@@ -14,6 +14,7 @@ const TopDiv = styled.div`
     height: 44px;
     background-color: #333;
     max-width: 100%;
+    z-index: 1000;
 `
 
 const TBContainer = styled.div`

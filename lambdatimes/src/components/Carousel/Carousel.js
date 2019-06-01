@@ -6,35 +6,55 @@ export default class Carousel extends Component {
     super(props);
     this.state = {
       images: [],
-      currentimg: ''
+      selectedIndex: 0
     }
   }
   componentDidMount() {
     this.setState({
-      images: carouselData,
+      images: carouselData
     })
   }
 
   leftClick = () => {
-    this.selectedImage();
-  }
+    const { images, selectedIndex } = this.state;
+    const atFirstImg = selectedIndex === 0;
+    const lastImg = images.length - 1;
+
+    if (atFirstImg) {
+      this.setState({ selectedIndex: lastImg });
+    } else {
+      this.setState(prevState => ({ selectedIndex: prevState.selectedIndex - 1 }));
+    }
+  };
 
   rightClick = () => {
+    const { images, selectedIndex } = this.state;
+    const lastImg = images.length - 1;
+    const atLastImg = selectedIndex === lastImg;
 
+    if (atLastImg) {
+      this.setState({ selectedIndex: 0 });
+    } else {
+      this.setState(prevState => ({
+        selectedIndex: prevState.selectedIndex + 1
+      }));
+    }
   }
 
   selectedImage = () => {
-    this.state.images.map((image, index) => {
-      return (
-        <img src={image} style={{ display: 'block' }} alt="carousel" index={index} />
-      )
-    })
-  }
+    const { images, selectedIndex } = this.state;
+    return (
+      <img src={images[selectedIndex]}
+        style={{ display: 'block' }
+        } alt="carousel" />
+    )
+  };
 
   render() {
     return (
       <div className="carousel" >
         <div className="left-button" onClick={this.leftClick}>{"<"}</div>
+        {this.selectedImage()}
         <div className="right-button" onClick={this.rightClick}>{">"}</div>
       </div>
     )
